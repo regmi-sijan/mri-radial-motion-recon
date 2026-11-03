@@ -6,3 +6,6 @@ period = 4.0
 amplitude = 8.0
 seed = 42
 closure_spokes = 402
+chunk_spokes = 10
+snr = 30
+bins = 4
