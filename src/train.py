@@ -16,6 +16,7 @@ def main():
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--smoke", action="store_true")
     mode.add_argument("--pilot", action="store_true", help="Use 12 train, 4 validation, and 4 test cases")
+    mode.add_argument("--large", action="store_true", help="Use 160 train, 20 validation, and 20 test cases")
     parser.add_argument("--epochs", type=int, default=12)
     parser.add_argument("--output", type=Path, default=Path("runs/unet"))
     args = parser.parse_args()
@@ -33,6 +34,8 @@ def main():
     counts = (2, 1, 1) if args.smoke else (400, 50, 50)
     if args.pilot:
         counts = (12, 4, 4)
+    if args.large:
+        counts = (160, 20, 20)
     train_seeds = range(counts[0])
     validation_seeds = range(10_000, 10_000 + counts[1])
     test_seeds = range(20_000, 20_000 + counts[2])
