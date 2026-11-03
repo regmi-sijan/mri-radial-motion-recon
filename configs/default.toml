@@ -1,0 +1,8 @@
+size = 128
+coils = 8
+spokes = 3000
+tr = 0.004
+period = 4.0
+amplitude = 8.0
+seed = 42
+closure_spokes = 402
