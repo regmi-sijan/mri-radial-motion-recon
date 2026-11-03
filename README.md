@@ -98,3 +98,11 @@ the checkpoint. The output directory contains `model.pt`, `metrics.json`
 with the held-out comparison against gridding, and `comparison.png` for
 one held-out case. The compressed-sensing comparison and stress tests remain
 separate milestones.
+
+### Run a larger pilot on GitHub
+
+Open **Actions → MRI U-Net pilot → Run workflow**. The pilot uses 12 training,
+4 validation, and 4 test phantoms at 128 × 128 pixels, and trains for six epochs.
+Download `mri-pilot-results` from the run summary for the checkpoint, held-out
+mean absolute error, and comparison image. To reproduce it locally, run
+`python -m src.train --pilot --epochs 6 --output runs/pilot`.

@@ -13,7 +13,9 @@ from src.unet import UNet
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--smoke", action="store_true")
+    mode = parser.add_mutually_exclusive_group()
+    mode.add_argument("--smoke", action="store_true")
+    mode.add_argument("--pilot", action="store_true", help="Use 12 train, 4 validation, and 4 test cases")
     parser.add_argument("--epochs", type=int, default=12)
     parser.add_argument("--output", type=Path, default=Path("runs/unet"))
     args = parser.parse_args()
@@ -29,6 +31,8 @@ def main():
     model = UNet(2 * config["coils"] * config["bins"], config["bins"], width)
     optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
     counts = (2, 1, 1) if args.smoke else (400, 50, 50)
+    if args.pilot:
+        counts = (12, 4, 4)
     train_seeds = range(counts[0])
     validation_seeds = range(10_000, 10_000 + counts[1])
     test_seeds = range(20_000, 20_000 + counts[2])

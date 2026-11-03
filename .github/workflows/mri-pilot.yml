@@ -1,0 +1,24 @@
+name: MRI U-Net pilot
+on: workflow_dispatch
+permissions:
+  contents: read
+jobs:
+  pilot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+      - name: Install CPU dependencies
+        run: |
+          python -m pip install -r requirements.txt
+          python -m pip install torch==2.15.0 --index-url https://download.pytorch.org/whl/cpu
+      - name: Train and evaluate on 20 full-resolution cases
+        run: python -m src.train --pilot --epochs 6 --output runs/pilot
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mri-pilot-results
+          path: runs/pilot/
+          if-no-files-found: error
